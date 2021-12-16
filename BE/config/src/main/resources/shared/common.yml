@@ -1,0 +1,60 @@
+uploadPath: D:/upload
+domainUploadPath: http://localhost:8080/authentication-service/files
+spring:
+  application:
+    name: common-service
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/common
+    username: postgres
+    #    password: 123456789
+    password: arettes123
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  resources:
+    static-locations: file:${uploadPath}
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  main:
+    allow-bean-Definition-overriding: true
+server:
+  port: 8084
+  tomcat:
+    uri-encoding: UTF-8
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+logging:
+  file: coffee.log
+  level:
+    root: INFO
+    org.springframework: INFO
+security:
+  oauth2:
+    client:
+      client-id: common-client
+      client-secret: 123123123
+    resource:
+      user-info-uri: http://localhost:8082/auth/user/info
+      token-info-uri: http://localhost:8082/oauth/check_token
+      preferTokenInfo: true
+      filter-order: 3
+  basic:
+    enabled: false
+swagger:
+  authen:
+    #    url: http://103.195.236.218:8080/authentication-service
+    url: http://localhost:8080/authentication-service
