@@ -36,7 +36,7 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class ExpHandlers extends ResponseEntityExceptionHandler {
-    Log log = LogFactory.getFactory().getInstance(ExpHandlers.class);
+
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(

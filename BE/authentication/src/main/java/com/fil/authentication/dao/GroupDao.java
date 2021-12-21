@@ -18,9 +18,9 @@ public class GroupDao {
 
     public List<Group> getGroup(String searchData, String sortData, Pageable pageable) {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT gr FROM Group gr ");
-        sql.append(" JOIN gr.roles r ");
-        sql.append(" JOIN gr.customer c ");
+        sql.append(" SELECT distinct(gr) FROM Group gr ");
+        sql.append(" LEFT JOIN gr.roles r ");
+        sql.append(" LEFT JOIN gr.customer c ");
         sql.append(" WHERE gr.daXoa = false ");
         sql.append(" AND gr.id in  ");
         sql.append(" ( ");
@@ -35,9 +35,9 @@ public class GroupDao {
 
     public Integer count(String searchData, String sortData) {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT count(gr) FROM Group gr ");
-        sql.append(" JOIN gr.roles r ");
-        sql.append(" JOIN gr.customer c ");
+        sql.append(" SELECT count(distinct gr) FROM Group gr ");
+        sql.append(" LEFT JOIN gr.roles r ");
+        sql.append(" LEFT JOIN gr.customer c ");
         sql.append(" WHERE gr.daXoa = false ");
         sql.append(" AND gr.id in  ");
         sql.append(" ( ");
@@ -52,9 +52,9 @@ public class GroupDao {
 
     public Group findById(Long id) {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT gr FROM Group gr ");
-        sql.append(" JOIN gr.roles r ");
-        sql.append(" JOIN gr.customer c ");
+        sql.append(" SELECT distinct gr FROM Group gr ");
+        sql.append(" LEFT JOIN gr.roles r ");
+        sql.append(" LEFT JOIN gr.customer c ");
         sql.append(" WHERE gr.daXoa = false ");
         sql.append(" AND gr.id in  ");
         sql.append(" ( ");

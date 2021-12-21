@@ -3,9 +3,13 @@ package com.fil.authentication.services;
 import com.fil.authentication.commons.ResponseAPI;
 import com.fil.authentication.dao.MenuCaseDao;
 import com.fil.authentication.models.ClientDetails;
+import com.fil.authentication.models.Group;
 import com.fil.authentication.models.MenuCase;
+import com.fil.authentication.models.Role;
+import com.fil.authentication.repository.GroupRepository;
 import com.fil.authentication.repository.MenuCaseRepository;
 import com.fil.authentication.commons.Pagination;
+import com.fil.authentication.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +25,8 @@ import java.util.Set;
 import com.fil.authentication.repository.ClientRepository;
 import com.fil.authentication.constants.Messages;
 
+import javax.transaction.Transactional;
+
 @Service
 public class MenuCaseServiceImpl implements MenuCaseService {
     @Autowired
@@ -29,6 +35,10 @@ public class MenuCaseServiceImpl implements MenuCaseService {
     private ClientRepository clientRepository;
     @Autowired
     private MenuCaseDao menuCaseDao;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private GroupRepository groupRepository;
 
     @Override
     public Object getAll(String searchData, String sortData, String fields, Integer page, Integer pageSize) throws Exception {
@@ -64,6 +74,7 @@ public class MenuCaseServiceImpl implements MenuCaseService {
         MenuCase menuCase = menuCaseRepository.findById(putData.getId()).orElseThrow(() -> new Exception("Không tìm thấy caseMenu"));
         if (!modifiedChild) {
             Set<MenuCase> menuCases = menuCase.getChildMenus();
+            putData.setRoles(menuCase.getRoles());
             putData.setChildMenus(menuCases);
         }
         menuCaseRepository.save(putData);
@@ -82,8 +93,15 @@ public class MenuCaseServiceImpl implements MenuCaseService {
         return new ResponseAPI(Messages.getSuccess("caseMenu"), menuCase);
     }
 
+    @Transactional
     @Override
     public ResponseAPI deletes(List<Long> ids) throws Exception, AccessDeniedException {
+        List<Role> roles = roleRepository.getAllByMenuCaseIdIn(ids);
+        List<Group> groups = groupRepository.findAllByRoleIds(ids);
+        for (Group group : groups) {
+            group.getRoles().removeAll(roles);
+        }
+        groupRepository.saveAll(groups);
         List<MenuCase> list = menuCaseRepository.findAllByIds(ids);
         menuCaseRepository.deleteAll(list);
         return new ResponseAPI(Messages.deleteSuccess("caseMenu"), null);

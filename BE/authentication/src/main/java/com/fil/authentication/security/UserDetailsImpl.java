@@ -38,6 +38,7 @@ public class UserDetailsImpl implements UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<>();
         user.getGroups().forEach(group -> {
             group.getRoles().forEach(role -> {
+                assert role.getMenuCase() != null;
                 if (!role.getMenuCase().getRegex().startsWith("ROLE")) {
                     authorities.add(new SimpleGrantedAuthority("ROLE" + "_" + role.getMenuCase().getRegex()));
                 } else {
