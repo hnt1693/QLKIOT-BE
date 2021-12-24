@@ -22,4 +22,7 @@ public interface MenuCaseRepository extends JpaRepository<MenuCase, Long> {
     @Query(nativeQuery = true, value = "select * from auth_menu where id in :ids")
     List<MenuCase> findAllByIds(List<Long> ids);
 
+    @Query(nativeQuery = true, value = "select * from auth_menu where parent_id in :ids")
+    List<MenuCase> findAllChildByIds(List<Long> ids);
+
 }

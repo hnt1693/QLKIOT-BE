@@ -2,9 +2,10 @@ package com.fil.authentication.controllers;
 
 import com.fil.authentication.commons.ResponseAPI;
 import com.fil.authentication.models.Customer;
-import com.fil.authentication.payload.dto.CustomerPayload;
+import com.fil.authentication.payload.request.CustomerPayload;
 import com.fil.authentication.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +15,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/auth/customer")
 public class CustomerController {
+
+    @Autowired
+    private ApplicationContext context;
+
     @Autowired
     private CustomerService customerService;
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("")
     public Object get() throws Exception {
-        return customerService.getAll(null, null, null,null, null);
+        return customerService.getAll(null, null, null, null, null);
     }
 
     @PostMapping("")
@@ -42,7 +47,10 @@ public class CustomerController {
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @DeleteMapping("")
-    private ResponseAPI deletes(@RequestBody List<Long> ids) throws Exception {
+    public ResponseAPI deletes(@RequestBody List<Long> ids) throws Exception {
         return customerService.deletes(ids);
     }
+
+
+
 }

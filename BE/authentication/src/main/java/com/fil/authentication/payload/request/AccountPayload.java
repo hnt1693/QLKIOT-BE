@@ -1,4 +1,4 @@
-package com.fil.authentication.payload.dto;
+package com.fil.authentication.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fil.authentication.models.UserDetails;

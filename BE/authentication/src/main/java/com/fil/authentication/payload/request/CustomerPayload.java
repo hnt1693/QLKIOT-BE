@@ -1,4 +1,4 @@
-package com.fil.authentication.payload.dto;
+package com.fil.authentication.payload.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,10 +16,10 @@ import javax.validation.constraints.Pattern;
 public class CustomerPayload {
     @NotNull(message = "Tên khách hàng không được trống")
     @Length(min = 5, message = "Tên khách hàng tối thiểu 5 ký tự")
-    private String customerName;
+    private String name;
 
     @NotNull(message = "Số điện thoại không được trống")
-    private String phone;
+    private String phoneNumber;
     private String address;
 
     @Length(max = 50, min = 8, message = "Tên tài khoản có độ dài hợp lệ từ 8 - 50 ký tự")

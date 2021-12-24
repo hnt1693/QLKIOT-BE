@@ -2,7 +2,7 @@ package com.fil.authentication.services;
 
 import com.fil.authentication.commons.ResponseAPI;
 import com.fil.authentication.models.Customer;
-import com.fil.authentication.payload.dto.CustomerPayload;
+import com.fil.authentication.payload.request.CustomerPayload;
 
 import java.nio.file.AccessDeniedException;
 

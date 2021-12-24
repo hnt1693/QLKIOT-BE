@@ -5,11 +5,9 @@ import com.fil.authentication.constants.Messages;
 import com.fil.authentication.enums.ROLE_TYPE;
 import com.fil.authentication.models.Account;
 import com.fil.authentication.models.Customer;
-import com.fil.authentication.payload.dto.CustomerPayload;
+import com.fil.authentication.payload.request.CustomerPayload;
 import com.fil.authentication.repository.AccountRepository;
 import com.fil.authentication.repository.CustomerRepository;
-import com.fil.authentication.repository.GroupRepository;
-import com.fil.authentication.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,13 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
-    private GroupRepository groupRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private AccountService accountService;
 
     @Override
     public ResponseAPI getAll(String searchData, String sortData, String fields, Integer page, Integer pageSize) throws Exception {
@@ -45,21 +37,15 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             Customer customer = new Customer();
             customer.setAddress(postData.getAddress());
-            customer.setName(postData.getCustomerName());
-            customer.setPhoneNumber(postData.getPhone());
+            customer.setName(postData.getName());
+            customer.setPhoneNumber(postData.getPhoneNumber());
             customer.setActivated(true);
             customer.setExpiredTime(LocalDateTime.now().plusDays(15));
             customer = customerRepository.save(customer);
-//            Role role = roleRepository.findByRole("ROLE_ADMIN");
-//            if (null == role) role = Utils.getRoleAdmin();
-//            roleRepository.save(role);
-//            Group group = Utils.getGroupAdmin(customer, role);
-//            group = groupRepository.save(group);
             Account account = new Account();
             account.setPassword(passwordEncoder.encode(postData.getPassword()));
             account.setEmail(postData.getEmail());
             account.setUsername(postData.getUsername());
-//            account.getGroups().add(group);
             account.setCustomer(customer);
             account.setRoleType(ROLE_TYPE.ADMIN);
             account.setActived(true);
@@ -98,6 +84,7 @@ public class CustomerServiceImpl implements CustomerService {
             return new ResponseAPI(Messages.deleteFailed("khách hàng"), null);
         }
     }
+
 
 
 }

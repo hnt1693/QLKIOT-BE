@@ -7,7 +7,7 @@ import com.fil.authentication.constants.Messages;
 import com.fil.authentication.dao.AccountDao;
 import com.fil.authentication.models.Account;
 import com.fil.authentication.models.UserDetails;
-import com.fil.authentication.payload.dto.AccountPayload;
+import com.fil.authentication.payload.request.AccountPayload;
 import com.fil.authentication.repository.AccountRepository;
 import com.fil.authentication.repository.UserDetailsRepository;
 import com.fil.authentication.security.PermissionCustomerService;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.nio.file.AccessDeniedException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

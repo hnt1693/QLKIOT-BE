@@ -40,6 +40,11 @@ public class MenuCaseController {
         return menuCaseService.findById(id);
     }
 
+    @GetMapping("/find-child/{id}")
+    public Object getChildByParentId(@PathVariable Long id) throws Exception {
+        return menuCaseService.getChildByParentId(id);
+    }
+
     @DeleteMapping()
     public Object deletes(@RequestBody List<Long> ids) throws Exception {
         return menuCaseService.deletes(ids);

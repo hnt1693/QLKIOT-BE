@@ -17,10 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.fil.authentication.repository.ClientRepository;
 import com.fil.authentication.constants.Messages;
@@ -79,6 +76,12 @@ public class MenuCaseServiceImpl implements MenuCaseService {
         }
         menuCaseRepository.save(putData);
         return new ResponseAPI(Messages.updateSuccess("caseMenu"), putData);
+    }
+
+    @Override
+    public ResponseAPI getChildByParentId(Long id) throws Exception {
+        List<MenuCase> list = menuCaseRepository.findAllChildByIds(Collections.singletonList(id));
+        return new ResponseAPI(Messages.getSuccess("menu"), list);
     }
 
     @Override
